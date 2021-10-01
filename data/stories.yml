@@ -1,0 +1,835 @@
+version: "2.0"
+
+stories:
+
+- story: O usuário quer cancelar o pedido no ato de preencher o form
+  steps:
+  - intent: greet
+  - action: action_greet
+  - intent: do_order
+  - action: order_form
+  - active_loop: order_form
+  - intent: stop_order
+  - action: utter_ask_continue
+  - or:
+    - intent: deny
+    - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_cancel_order
+  - action: action_clear_order
+
+- story: happy path 1
+  steps:
+  - intent: greet
+  - action: action_greet
+  - intent: do_order
+  - action: order_form
+  - active_loop: order_form
+  - slot_was_set:
+    - requested_slot: tops
+  - slot_was_set:
+    - tops: atum
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - tops:
+      - calabresa
+      - atum
+  - slot_was_set:
+    - requested_slot: border
+  - slot_was_set:
+    - border: true
+  - intent: stop_order
+  - action: utter_ask_continue
+  - or:
+    - intent: deny
+    - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_cancel_order
+  - action: action_clear_order
+
+
+- story: inform path
+  steps:
+  - intent: greet
+  - action: action_greet
+  - intent: menu
+  - action: utter_menu
+  - intent: list_sizes
+  - action: utter_list_sizes
+  - intent: list_delivery
+  - action: utter_list_delivery
+  
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: action_greet
+  - intent: do_order
+    entities:
+    - tops: calabresa
+  - slot_was_set:
+    - tops: calabresa
+  - action: order_form
+  - active_loop: order_form
+  - slot_was_set:
+    - tops:
+      - calabresa
+  - slot_was_set:
+    - tops:
+      - calabresa
+  - slot_was_set:
+    - requested_slot: size
+  - slot_was_set:
+    - size: média
+  - slot_was_set:
+    - size: média
+  - slot_was_set:
+    - requested_slot: border
+  - slot_was_set:
+    - border: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_add_pizza
+  - slot_was_set:
+    - pizzas:
+      - tops:
+        - calabresa
+        size: média
+        with_border: true
+        price: 35.0
+  - action: utter_ask_more_pizza
+  - intent: deny
+  - action: action_more_pizza
+  - action: drinks_form
+  - active_loop: drinks_form
+  - slot_was_set:
+    - requested_slot: with_drinks
+  - slot_was_set:
+    - with_drinks: true
+  - slot_was_set:
+    - requested_slot: drink
+  - intent: menu
+  - action: utter_menu
+  - action: drinks_form
+  - slot_was_set:
+    - requested_slot: drink
+  - slot_was_set:
+    - drink: água
+  - slot_was_set:
+    - drink:
+      - suco
+      - água
+  - slot_was_set:
+    - requested_slot: null
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: delivery_form
+  - active_loop: delivery_form
+  - slot_was_set:
+    - requested_slot: delivery
+  - slot_was_set:
+    - delivery: entrega
+  - slot_was_set:
+    - tip: null
+  - slot_was_set:
+    - requested_slot: tip
+  - slot_was_set:
+    - tip: 3,00
+  - slot_was_set:
+    - tip: 3.0
+  - slot_was_set:
+    - requested_slot: null
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: confirm_order_form
+  - active_loop: confirm_order_form
+  - slot_was_set:
+    - requested_slot: done_order
+  - slot_was_set:
+    - total_price: 58.0
+  - slot_was_set:
+    - done_order: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_clear_order
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_clear_order
+
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: action_greet
+  - intent: menu
+  - action: utter_menu
+  - intent: do_order
+    entities:
+    - tops: 4 queijos
+    - tops: doce de leite
+  - slot_was_set:
+    - tops: doce de leite
+  - action: order_form
+  - active_loop: order_form
+  - slot_was_set:
+    - tops:
+      - doce de leite
+  - slot_was_set:
+    - tops:
+      - 4 queijos
+      - doce de leite
+  - slot_was_set:
+    - requested_slot: size
+  - intent: list_sizes
+  - action: utter_list_sizes
+  - action: order_form
+  - slot_was_set:
+    - requested_slot: size
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - requested_slot: border
+  - slot_was_set:
+    - border: false
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_add_pizza
+  - slot_was_set:
+    - pizzas:
+      - tops:
+        - 4 queijos
+        - doce de leite
+        size: grande
+        with_border: false
+        price: 50.0
+  - action: utter_ask_more_pizza
+  - intent: deny
+  - action: action_more_pizza
+  - action: drinks_form
+  - active_loop: drinks_form
+  - slot_was_set:
+    - requested_slot: with_drinks
+  - slot_was_set:
+    - drink: água
+  - slot_was_set:
+    - with_drinks: true
+  - slot_was_set:
+    - requested_slot: null
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: delivery_form
+  - active_loop: delivery_form
+  - slot_was_set:
+    - requested_slot: delivery
+  - slot_was_set:
+    - delivery: retirada
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: confirm_order_form
+  - active_loop: confirm_order_form
+  - slot_was_set:
+    - requested_slot: done_order
+  - slot_was_set:
+    - total_price: 115.0
+  - slot_was_set:
+    - done_order: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_clear_order
+  - slot_was_set:
+    - done_order: None
+- story: interactive_story_2
+  steps:
+  - intent: menu
+  - action: utter_menu
+  - intent: do_order
+    entities:
+    - tops: calabresa
+    - tops: atum
+    - tops: 4 queijos
+    - tops: banana
+    - tops: brigadeiro
+  - slot_was_set:
+    - tops: brigadeiro
+  - action: order_form
+  - active_loop: order_form
+  - slot_was_set:
+    - tops:
+      - brigadeiro
+  - slot_was_set:
+    - tops: null
+  - slot_was_set:
+    - requested_slot: tops
+  - slot_was_set:
+    - tops: atum
+  - slot_was_set:
+    - tops:
+      - 4 queijos
+      - camarão
+      - calabresa
+      - atum
+  - slot_was_set:
+    - requested_slot: size
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - requested_slot: border
+  - intent: stop_order
+  - action: utter_ask_continue
+  - or:
+    - intent: affirm
+    - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_cancel_order
+  - action: action_clear_order
+
+- story: interactive_story_3
+  steps:
+  - intent: do_order
+  - action: order_form
+  - active_loop: order_form
+  - slot_was_set:
+    - requested_slot: tops
+  - intent: stop_order
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_cancel_order
+  - action: action_clear_order
+
+- story: interactive_story_4
+  steps:
+  - intent: greet
+  - action: action_greet
+  - intent: do_order
+    entities:
+    - size: grande
+    - tops: brigadeiro
+  - slot_was_set:
+    - tops: brigadeiro
+  - slot_was_set:
+    - size: grande
+  - action: order_form
+  - active_loop: order_form
+  - slot_was_set:
+    - tops:
+      - brigadeiro
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - tops:
+      - brigadeiro
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - requested_slot: border
+  - slot_was_set:
+    - border: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_add_pizza
+  - slot_was_set:
+    - pizzas:
+      - tops:
+        - brigadeiro
+        size: grande
+        with_border: true
+        price: 50.0
+  - action: utter_ask_more_pizza
+  - intent: deny
+  - action: action_more_pizza
+  - action: drinks_form
+  - active_loop: drinks_form
+  - slot_was_set:
+    - requested_slot: with_drinks
+  - slot_was_set:
+    - drink: refrigerante
+  - slot_was_set:
+    - with_drinks: true
+  - slot_was_set:
+    - requested_slot: null
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: delivery_form
+  - active_loop: delivery_form
+  - slot_was_set:
+    - requested_slot: delivery
+  - slot_was_set:
+    - delivery: retirada
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: confirm_order_form
+  - active_loop: confirm_order_form
+  - slot_was_set:
+    - requested_slot: done_order
+  - slot_was_set:
+    - total_price: 55.0
+  - slot_was_set:
+    - done_order: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_clear_order
+  
+- story: interactive_story_5
+  steps:
+  - intent: greet
+  - action: action_greet
+  - intent: order_drinks
+    entities:
+    - drink: refrigerante
+  - slot_was_set:
+    - drink: refrigerante
+  - action: drinks_form
+  - active_loop: drinks_form
+  - slot_was_set:
+    - requested_slot: with_drinks
+  - slot_was_set:
+    - with_drinks: true
+  - slot_was_set:
+    - requested_slot: null
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: delivery_form
+  - active_loop: delivery_form
+  - slot_was_set:
+    - requested_slot: delivery
+  - slot_was_set:
+    - delivery: entrega
+  - slot_was_set:
+    - tip: null
+  - slot_was_set:
+    - requested_slot: tip
+  - slot_was_set:
+    - tip: 0.0
+  - slot_was_set:
+    - requested_slot: null
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: confirm_order_form
+  - active_loop: confirm_order_form
+  - slot_was_set:
+    - requested_slot: done_order
+  - slot_was_set:
+    - total_price: 15.0
+  - slot_was_set:
+    - done_order: false
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_clear_order
+
+- story: interactive_story_6
+  steps:
+  - intent: order_drinks
+    entities:
+    - drink: coca-cola
+  - slot_was_set:
+    - drink: coca-cola
+  - action: drinks_form
+  - active_loop: drinks_form
+  - slot_was_set:
+    - drink: null
+  - slot_was_set:
+    - with_drinks: true
+  - slot_was_set:
+    - requested_slot: drink
+  - slot_was_set:
+    - drink: null
+  - slot_was_set:
+    - with_drinks: true
+  - slot_was_set:
+    - requested_slot: drink
+  - slot_was_set:
+    - drink: refrigerante
+  - slot_was_set:
+    - drink: refrigerante
+  - slot_was_set:
+    - with_drinks: true
+  - slot_was_set:
+    - requested_slot: null
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: delivery_form
+  - active_loop: delivery_form
+  - slot_was_set:
+    - requested_slot: delivery
+  - slot_was_set:
+    - delivery: retirada
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: confirm_order_form
+  - active_loop: confirm_order_form
+  - slot_was_set:
+    - requested_slot: done_order
+  - slot_was_set:
+    - total_price: 5.0
+  - slot_was_set:
+    - done_order: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_clear_order
+
+- story: interactive_story_7
+  steps:
+  - intent: order_drinks
+    entities:
+    - drink: refrigerante
+  - slot_was_set:
+    - drink: refrigerante
+  - action: drinks_form
+  - active_loop: drinks_form
+  - slot_was_set:
+    - drink: refrigerante
+  - slot_was_set:
+    - with_drinks: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: delivery_form
+  - active_loop: delivery_form
+  - slot_was_set:
+    - requested_slot: delivery
+  - intent: stop_order
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_cancel_order
+  - action: action_clear_order
+
+- story: interactive_story_8
+  steps:
+  - intent: greet
+  - action: action_greet
+  - intent: order_drinks
+    entities:
+    - drink: coca-cola
+  - slot_was_set:
+    - drink: coca-cola
+  - action: drinks_form
+  - active_loop: drinks_form
+  - intent: stop_order
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_cancel_order
+  - action: action_clear_order
+
+- story: interactive_story_1
+  steps:
+  - intent: do_order
+    entities:
+    - size: grande
+    - tops: calabresa
+  - slot_was_set:
+    - tops: calabresa
+  - slot_was_set:
+    - size: grande
+  - action: order_form
+  - active_loop: order_form
+  - slot_was_set:
+    - tops:
+      - calabresa
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - tops:
+      - calabresa
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - requested_slot: border
+  - slot_was_set:
+    - border: false
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_add_pizza
+  - slot_was_set:
+    - pizzas:
+      - tops:
+        - calabresa
+        size: grande
+        with_border: false
+        price: 30.0
+  - action: utter_ask_more_pizza
+  - intent: deny
+  - action: action_more_pizza
+  - action: drinks_form
+  - active_loop: drinks_form
+  - slot_was_set:
+    - requested_slot: with_drinks
+  - slot_was_set:
+    - with_drinks: false
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: delivery_form
+  - active_loop: delivery_form
+  - slot_was_set:
+    - requested_slot: delivery
+  - slot_was_set:
+    - delivery: retirada
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: confirm_order_form
+  - active_loop: confirm_order_form
+  - slot_was_set:
+    - requested_slot: done_order
+  - slot_was_set:
+    - total_price: 30.0
+  - slot_was_set:
+    - done_order: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_clear_order
+  - slot_was_set:
+    - tops: null
+  - slot_was_set:
+    - size: null
+  - slot_was_set:
+    - border: null
+  - slot_was_set:
+    - pizzas: null
+  - slot_was_set:
+    - drink: null
+  - slot_was_set:
+    - with_drinks: null
+  - slot_was_set:
+    - delivery: null
+  - slot_was_set:
+    - tip: null
+  - intent: do_order
+  - action: order_form
+  - active_loop: order_form
+  - slot_was_set:
+    - requested_slot: tops
+  - slot_was_set:
+    - tops: doce de leite
+  - slot_was_set:
+    - tops:
+      - camarão
+      - doce de leite
+  - slot_was_set:
+    - requested_slot: size
+  - slot_was_set:
+    - size: família
+  - slot_was_set:
+    - size: família
+  - slot_was_set:
+    - requested_slot: border
+  - slot_was_set:
+    - border: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_add_pizza
+  - action: utter_ask_more_pizza
+  - intent: deny
+  - action: action_more_pizza
+  - action: drinks_form
+  - active_loop: drinks_form
+  - slot_was_set:
+    - requested_slot: with_drinks
+  - slot_was_set:
+    - with_drinks: false
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: delivery_form
+  - active_loop: delivery_form
+  - slot_was_set:
+    - requested_slot: delivery
+  - slot_was_set:
+    - delivery: retirada
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: confirm_order_form
+  - active_loop: confirm_order_form
+  - slot_was_set:
+    - done_order: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_clear_order
+  - slot_was_set:
+    - tops: null
+  - slot_was_set:
+    - size: null
+  - slot_was_set:
+    - border: null
+  - slot_was_set:
+    - pizzas: []
+  - slot_was_set:
+    - drink: null
+  - slot_was_set:
+    - with_drinks: null
+  - slot_was_set:
+    - delivery: null
+  - slot_was_set:
+    - tip: null
+
+- story: fallback story
+  steps:
+  - intent: nlu_fallback
+  - action: action_custom_fallback
+  - slot_was_set:
+    - count_error: '1'
+  - intent: nlu_fallback
+  - action: action_custom_fallback
+  - slot_was_set:
+    - count_error: '2'
+  - intent: nlu_fallback
+  - action: action_custom_fallback
+
+- story: out of scorpe story
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_socpe
+  - intent: out_of_scope
+  - action: utter_out_of_socpe
+  - intent: out_of_scope
+  - action: utter_out_of_socpe
+
+- story: interactive_story_1
+  steps:
+  - intent: nlu_fallback
+  - action: action_custom_fallback
+  - slot_was_set:
+    - count_error: '1'
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: action_greet
+  - slot_was_set:
+    - salutation: Boa tarde
+  - intent: do_order
+    entities:
+    - size: grande
+    - tops: 4 queijos
+  - slot_was_set:
+    - tops: 4 queijos
+  - slot_was_set:
+    - size: grande
+  - action: order_form
+  - active_loop: order_form
+  - slot_was_set:
+    - tops:
+      - 4 queijos
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - tops:
+      - 4 queijos
+  - slot_was_set:
+    - size: grande
+  - slot_was_set:
+    - requested_slot: border
+  - slot_was_set:
+    - border: false
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_add_pizza
+  - slot_was_set:
+    - pizzas:
+      - tops:
+        - 4 queijos
+        size: grande
+        with_border: false
+        price: 30.0
+  - action: utter_ask_more_pizza
+  - intent: deny
+  - action: action_more_pizza
+  - action: drinks_form
+  - active_loop: drinks_form
+  - slot_was_set:
+    - requested_slot: with_drinks
+  - slot_was_set:
+    - drink: refrigerante
+  - slot_was_set:
+    - with_drinks: true
+  - slot_was_set:
+    - requested_slot: null
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: delivery_form
+  - active_loop: delivery_form
+  - slot_was_set:
+    - requested_slot: delivery
+  - slot_was_set:
+    - delivery: retirada
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: confirm_order_form
+  - active_loop: confirm_order_form
+  - slot_was_set:
+    - requested_slot: done_order
+  - slot_was_set:
+    - total_price: 35.0
+  - slot_was_set:
+    - done_order: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_clear_order
+  - slot_was_set:
+    - tops: null
+  - slot_was_set:
+    - size: null
+  - slot_was_set:
+    - border: null
+  - slot_was_set:
+    - pizzas: []
+  - slot_was_set:
+    - done_order: null
+  - slot_was_set:
+    - drink: null
+  - slot_was_set:
+    - with_drinks: null
+  - slot_was_set:
+    - delivery: null
+  - slot_was_set:
+    - tip: null

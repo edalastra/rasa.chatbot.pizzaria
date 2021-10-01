@@ -1,0 +1,304 @@
+version: "2.0"
+nlu:
+- intent: greet
+  examples: |
+    - oi
+    - olá
+    - bom dia
+    - boa tarde
+    - boa noite
+    - opa
+    - alô
+    - ola
+- intent: do_order
+  examples: |
+    - Gostaria de pedir uma pizza
+    - Quero uma pizza
+    - Pizza, por favor
+    - Quero pizza
+    - Me vê uma pizza
+    - Estou querendo uma pizza
+    - quero pedir uma pizza
+    - quero uma pizza
+    - quero pizza
+    - oi, quero pizza
+    - Quero uma pizza [brotinho]{"entity": "size", "value": "broto"}
+    - Quero uma pizza [média](size) de [calabresa](tops)
+    - Quero uma pizza sabor [atum](tops), de tamanho [grande](tops)
+    - Oi quero uma pizza [grande](size), de [4 queijos](tops)
+    - Quero pedir uma pizza de [calabresa](tops) tamanho [família](size)
+    - Eu quero uma pizza [média](size) de [frango](tops)
+    - Me traz uma pizza [pequena](size) de [atum](tops) e outra de [toscana](tops)
+    - Uma pizza [média](size) por favor
+    - Quero uma pizza de [camarão](tops)
+    - Quero uma pizza de [calabresa](tops) tamanho [medio](size)
+    - Gostaria de pedir uma pizza tamanho [pequena](size)
+    - Quero uma pizza tamanho [médio](size)
+    - Gostaria de uma pizza tamanho [pequena](size)
+    - quero uma pizza [grande](size), de [Quatro queijos](tops)
+    - Quero uma doce de [brigadeiro](tops)
+    - Gostaria de uma pizza doce de [banana](tops) tamanho [família](size)
+    - quero uma pizza de [calabresa](tops)
+    - quero uma pizza de [basca](tops)
+    - quero uma de [atum](tops)
+    - [atum](tops)
+    - quero uma [grande](size)
+    - [calabresa](tops)
+    - [frango](tops)
+    - pizza tamanho [médio](size)
+    - pizza de [calabresa](tops)
+    - [calabresa](tops) e [atum](tops)
+    - [frango](tops) e [calabresa](tops)
+    - gostaria de uma pizza de [calabresa](tops) e [frango](tops)
+    - [calabresa](tops) e [frango](tops)
+    - [frango](tops), [atum](tops) e [calabresa](tops)
+    - [banana](tops) e [4 queijos](tops)
+    - tamanho [família](size)
+    - pizza tamanho [grande](size)
+    - então quero uma tamanho [grande](tops)
+    - [calabresa](tops) e [frango](tops) tamanho [grande](size)
+    - pizza de [calabresa](tops) e [atum](tops), tamanho [grande](size)
+    - [banana](tops) tamanho [broto](size)
+    - pizza [grande](size)
+    - olá, quero uma pizza [grande](size) de [atum](tops)
+    - quero pedir uma pizza de [calabresa](tops), [atum](tops) e [banana](tops) tamanho [família](size)
+    - quero pedir uma pizza de [calabresa](tops) tamanho [broto](size)
+    - oi quero uma pizza [grande](size) de [frango](tops)
+    - quero pizza [grande](size) [atum](tops)
+    - quero pedir uma pizza de [calabresa](tops)
+    - quero pizza [média](size)
+    - quero uma pizza 4 [queijos](tops) com [doce de leite](tops)
+    - quero uma pizza [4 queijos](tops) com [doce de leite](tops)
+    - quero uma pizza tamanho [grande](size)
+    - quero [banana](tops) e [brigadeiro](tops)
+    - quero pedir uma pizza de [calabresa](tops), [atum](tops), [4 queijos](tops), [banana](tops) e [brigadeiro](tops)
+    - [4 queijos](tops), [camarão](tops), [calabresa](tops), [atum](tops),
+    - [quatro queijos]{"entity": "tops", "value": "4 queijos"}, [camarão](tops), [calabresa](tops), [atum](tops),
+    - oi quero pizza
+    - Quero a [menor pizza]{"entity": "size", "value": "broto"} que vocês têm
+    - Tamanho [P]{"entity": "size", "value": "broto"}
+    - Tamanho [M]{"entity": "size", "value": "m\u00e9dia"}
+    - Tamanho [G]{"entity": "size", "value": "grande"}
+    - [mediana]{"entity": "size", "value": "m\u00e9dia"}
+    - quero uma pizza [GG]{"entity": "size", "value": "fam\u00edlia"} de [brigadeiro](tops) com borda recheada
+    - quero [a maior pizza]{"entity": "size", "value": "fam\u00edlia"} de [calabresa](tops)
+    - quero uma pizza de [camarão](tops) e [doce de leite](tops)
+    - [família](size)
+    - [broto](size)
+    - tamanho [grande](size)
+    - [grande](size)
+    - [média](size)
+    - tamanho [broto](size)
+    - Quero pedir uma pizza tamanho [G]{"entity": "size", "value": "grande"} de [quatro queijos]{"entity": "tops", "value": "4 queijos"}
+- intent: menu
+  examples: |
+    - Gostaria ver o menu
+    - menu
+    - menu por favor
+    - ver menu
+    - quero o cardápio
+    - cardápio
+    - Opções
+    - gostaria de ver o menu
+    - quais opções de doce vocês têm?
+    - Quais pizzas vocês têm?
+    - Opções de pizza
+    - opções de sabor
+    - que sabores tem?
+    - quais são os sabores?
+    - A pizza vem com borda recheada?
+    - Têm borda recheada?
+    - Vêm com borda?
+    - Opções de borda
+    - tem borda recheada?
+    - tem opção de borda?
+    - Quais bordas têm?
+    - tipos de borda recheada?
+    - Vocês têm bebidas?
+    - Menu de bebidas
+    - Opções de bebidas
+    - Quais bebidas vocês servem?
+    - que bebidas têm?
+    - quais são as bebidas?
+    - Quero ver as opções de bebidas
+    - opções de bebidas
+- intent: list_sizes
+  examples: |
+    - Opções de tamanhos?
+    - Que tamanho de pizza são servidas?
+    - Tamanho da pizza?
+    - Qual é o tamanho da pizza?
+    - quais tamanho de pizza têm?
+    - opções de tamanho
+    - que tamanho têm?
+    - quais são os tamanhos disponivéis
+- intent: inform_entrega
+  examples: |
+    - Quero que me tragam o pedido
+    - Quero Tele entrega
+    - Quero entrega
+    - enviem o pedido
+    - Gostaria que me trouxessem a pizza
+    - quero tele-entrega
+    - quero entrega
+    - quero que levem até minha casa
+    - pode ser entrega
+    - quero receber em casa
+    - Tele
+    - telentrega
+    - quero delivery
+    - quero tele
+- intent: inform_retirada
+  examples: |
+    - Vou buscar o pedido
+    - quero retirar o pedido na loja
+    - vou buscar
+    - vou retirar
+    - quero retirar a pizza
+    - quero retirar meu pedido
+    - posso retirar
+    - quero retirar na loja
+    - vou até a loja
+    - quero retirar o pedido
+    - vou retirar na loja
+    - quero retirar
+- intent: order_drinks
+  examples: |
+    - Quero pedir uma [água de coco](drink)
+    - Eu gostaria de um [refrigerante](drink)
+    - Quero uma bebida
+    - Me vê um [suco](drink)
+    - Inclui uma [água de coco](drink) no pedido
+    - Envia uma [água](drink)
+    - Um [suco](drink) por favor
+    - quero uma [água](drink) e um [refrigerante](drink)
+    - sim, quero [água](drink) e [refrigerante](drink)
+    - [água de coco](drink) e [suco](drink)
+    - me vê um [suco](drink) e uma [água](drink)
+    - quero uma [água](drink)
+    - me vê um [suco](drink) e um [refrigerante](drink)
+    - quero pedir um [refrigerante](drink)
+    - quero [tampico]{"entity": "drink", "value": "suco"}
+    - quero pedir uma [coca-cola]{"entity": "drink", "value": "refrigerante"}
+    - quero um [refrigerante](drink)
+    - oi, quero pedir um [refrigerante](drink)
+    - quero [coca-cola]{"entity": "drink", "value": "refrigerante"}
+- intent: stop_order
+  examples: |
+    - não quero mais
+    - pare o pedido
+    - desculpe mas acho que não quero mais
+    - por favor cancele o pedido
+    - não quero continuar
+    - parar
+    - encerrar
+    - encerrar atendimento
+    - quero encerrar
+    - cancelar
+    - quero cancelar
+- intent: inform_border
+  examples: |
+    - Eu gostaria de borda na minha pizza
+    - Com borda recheada
+    - Quero borda recheada
+    - Com borda
+    - Adicionar borda recheada
+    - Quero borda
+- intent: goodbye
+  examples: |
+    - tchau
+    - adeus
+    - falou
+    - até mais
+- intent: affirm
+  examples: |
+    - sim
+    - s
+    - si
+    - ok
+    - claro
+    - sim, por favor
+    - correto
+    - confirmo
+    - quero
+    - aceito
+    - com
+- intent: deny
+  examples: |
+    - não
+    - no
+    - nunca
+    - acho melhor não
+    - não obrigada
+    - na verdade não
+    - sem
+    - não quero
+- intent: inform_tip
+  examples: |
+    - sim, quero dar [5,00](tip) reais.
+    - claro, [2,50](tip)
+    - acho que vou dar R$[0,50](tip)
+    - R$[0,50](tip)
+    - [1,50](tip) reais
+    - quero dar [2,50](tip)
+    - sim [10,00](tip)
+    - vou dar [3,00](tip)
+- intent: out_of_scope
+  examples: |
+    - Quanto é 2 + 2?
+    - Quem é o presidente do Brasil?
+    - blablablabla
+    - asdasdasdasdsa
+    - hmmmmmmmmmmmm
+    - hahahahaha
+    - Onde você está?
+    - O que está fazendo
+    - O que você faz também?
+    - Estou com sono
+    - quem é o dono?
+    - quero fazer uma reclamação
+    - falar com atendente
+- intent: list_delivery
+  examples: |
+    - Formas de entrega
+    - Opções de entrega
+    - Posso retirar o pedido
+    - Como vou receber o pedido
+    - Vocês entregam
+    - Posso buscar a pizza na loja
+    - Como funciona a entrega
+    - formas de entrega
+- intent: nlu_fallback
+  examples: |
+    - quero falar com o dono
+    - italian restaurant
+    - oloquinho meu
+    - jkljkjkklklkljjlkj
+- synonym: broto
+  examples: |
+    - brotinho
+    - menor pizza
+    - P
+- synonym: 4 queijos
+  examples: |
+    - quatro queijos
+- synonym: média
+  examples: |
+    - M
+    - mediana
+- synonym: grande
+  examples: |
+    - G
+- synonym: família
+  examples: |
+    - GG
+    - a maior pizza
+- synonym: suco
+  examples: |
+    - tampico
+- synonym: refrigerante
+  examples: |
+    - coca-cola
+- regex: tip
+  examples: |
+    - ^[1-9]\d{0,2}(\.\d{3})*,\d{2}$
