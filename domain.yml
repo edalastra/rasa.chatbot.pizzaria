@@ -1,0 +1,206 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- inform_retirada
+- do_order
+- order_drinks
+- deny
+- affirm
+- greet
+- nlu_fallback
+- out_of_scope
+- goodbye
+- stop_order
+- inform_entrega
+- list_tops
+- list_sizes
+- inform_tip
+- list_delivery
+- request_border
+- menu
+entities:
+- drink
+- size
+- tip
+- tops
+slots:
+  salutation:
+    type: text
+    influence_conversation: true
+  tops:
+    type: text
+    influence_conversation: true
+  requested_slot:
+    type: any
+    influence_conversation: false
+  pizzas:
+    type: list
+    initial_value: []
+    influence_conversation: true
+  size:
+    type: text
+    influence_conversation: true
+  drink:
+    type: text
+    influence_conversation: true
+  with_drinks:
+    type: bool
+    influence_conversation: true
+  border:
+    type: bool
+    influence_conversation: true
+  qtd_size:
+    type: text
+    influence_conversation: true
+  complete_order:
+    type: text
+    influence_conversation: true
+  delivery:
+    type: categorical
+    influence_conversation: true
+    values:
+    - retirada
+    - entrega
+  tip:
+    type: any
+    influence_conversation: false
+  total_price:
+    type: any
+    influence_conversation: false
+  count_error:
+    type: text
+    initial_value: 0
+    influence_conversation: true
+  done_order:
+    type: bool
+    influence_conversation: true
+responses:
+  utter_greet:
+  - text: Olá. Seja bem vindo a Pizzaria do Elizandro, no que posso lhe ajudar?
+  utter_menu:
+  - text: 'Pizzas Salagadas: 4 queijos, camarão, calabresa, atum, frango Pizzas Doces: brigadeiro, banana, doce de leite \n Bebidas: refrigerante, suco, água e água de coco \n * Temos opções de bordas recheadas com catupiry '
+  utter_list_sizes:
+  - text: Temos pizzas nos tamanhos broto, média, grande e família.
+  utter_inform_border:
+  - text: No momento só temos borda de catupiry
+  utter_do_order:
+  - text: Certo! pode fazer seu pedido.
+  utter_ask_size:
+  - text: Qual tamanho de pizza você deseja?. Temos pizzas nos tamanhos broto, média, grande e família.
+  utter_ask_tops:
+  - text: Quais sabores você gostaria na sua pizza?
+  utter_ask_border:
+  - text: Gostaria de borda recheada com catupiry?
+  utter_ask_continue:
+  - text: Você tem certeza?
+  utter_ask_more_pizza:
+  - text: Gostaria de adicionar mais uma pizza ao pedido?
+  utter_ask_with_drinks:
+  - text: Deseja incluir bebidas no pedido?
+  utter_ask_drink:
+  - text: Quais bebidas vai querer?
+  utter_ask_delivery:
+  - text: Qual vai ser a forma de entrega? Você pode pedir tele-entrega ou vir retirar em nossa loja.
+  utter_list_delivery:
+  - text: Você pode pedir tele-entrega ou vir retirar em nossa loja.
+  utter_ask_tip:
+  - text: Você gostaria de dar uma gorjeta para o entregador? se sim informe o valor. Digite no formato '2,00'.
+  utter_please_rephrase:
+  - text: Desculpe, não entendi o que você disse. Pode repetir por favor?
+  - text: Não entendi, pode reformular?
+  - text: Não entendi, pode repetir?
+  utter_out_of_scope:
+  - text: Não posso ajudá-lo com isso.
+  utter_restart:
+  - text: Agradecemos sua preferência. Até logo!
+  utter_cancel_order:
+  - text: Pedido cancelado.
+  utter_confirm_order:
+  - text: Pedido enviado.
+  utter_goodbye:
+  - text: Agradecemos sua preferência. Até logo!
+  utter_out_of_socpe:
+  - text: Desculpe-me, não posso lhe ajudar com isso agora.
+actions:
+- action_add_drink
+- action_add_pizza
+- action_ask_done_order
+- action_clear_order
+- action_confirm_order
+- action_custom_fallback
+- action_greet
+- action_more_pizza
+- action_submit_form
+- utter_ask_continue
+- utter_ask_drink
+- utter_ask_more_pizza
+- utter_cancel_order
+- utter_do_order
+- utter_goodbye
+- utter_list_delivery
+- utter_list_drinks
+- utter_list_sizes
+- utter_list_tops
+- utter_out_of_socpe
+- utter_please_rephrase
+- utter_restart
+- validate_confirm_order_form
+- validate_delivery_form
+- validate_drinks_form
+- validate_order_form
+forms:
+  order_form:
+    required_slots:
+      tops:
+      - entity: tops
+        type: from_entity
+      size:
+      - entity: size
+        type: from_entity
+      border:
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
+      - intent: inform_border
+        type: from_intent
+        value: true
+  drinks_form:
+    required_slots:
+      with_drinks:
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
+      - intent: order_drinks
+        type: from_intent
+        value: true
+    drink:
+    - entity: drink
+      type: from_entity
+  delivery_form:
+    required_slots:
+      delivery:
+      - intent: inform_entrega
+        type: from_intent
+        value: entrega
+      - intent: inform_retirada
+        type: from_intent
+        value: retirada
+    tip:
+    - type: from_text
+  confirm_order_form:
+    required_slots:
+      done_order:
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false

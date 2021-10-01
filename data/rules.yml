@@ -1,0 +1,186 @@
+version: "2.0"
+
+rules: 
+
+- rule: saudacao
+  steps:
+  - intent: greet
+  - action: action_greet
+
+- rule: Activate order form
+  steps:
+  - intent: do_order
+  - action: order_form
+  - active_loop: order_form
+
+- rule: Deactivate order form
+  condition:
+  - active_loop: order_form
+  steps:
+  - action: order_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_add_pizza
+  - action: utter_ask_more_pizza
+  - or:
+    - intent: affirm
+    - intent: deny
+  - action: action_more_pizza
+  - action: drinks_form
+  - active_loop: drinks_form
+  wait_for_user_input: false
+
+- rule: Activate drinks form
+  steps:
+  - intent: order_drinks
+  - action: drinks_form
+  - active_loop: drinks_form
+
+- rule: Deactivate drinks form
+  condition:
+  - active_loop: drinks_form
+  steps:
+  - action: drinks_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: delivery_form
+  - active_loop: delivery_form
+  wait_for_user_input: false
+
+
+- rule: Activate drinks form
+  steps:
+  - action: delivery_form
+  - active_loop: delivery_form
+
+- rule: Deactivate delivery form
+  condition:
+  # Condition that form is active.
+  - active_loop: delivery_form
+  steps:
+  # Form is deactivated
+  - action: delivery_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: confirm_order_form
+  - active_loop: confirm_order_form
+  wait_for_user_input: false
+
+
+
+- rule: Activate confirm_order_form
+  steps:
+  - action: confirm_order_form
+  - active_loop: confirm_order_form
+
+- rule: Deactivate confirm_order_form
+  condition:
+  - active_loop: confirm_order_form
+  steps:
+  - action: confirm_order_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_clear_order
+
+ 
+- rule: Interruption sizes in order form
+  condition:
+  - active_loop: order_form
+  steps:
+    - intent: list_sizes
+    - action: utter_list_sizes
+    - action: order_form
+    - active_loop: order_form
+
+- rule: Interruption tops in order form
+  condition:
+  - active_loop: order_form
+  steps:
+    - intent: menu
+    - action: utter_menu
+    - action: order_form
+    - active_loop: order_form
+
+- rule: Interruption drinks in order form
+  condition:
+  - active_loop: drinks_form
+  steps:
+    - intent: menu
+    - action: utter_menu
+    - action: drinks_form
+    - active_loop: drinks_form
+
+- rule: Interruption border in order form
+  condition:
+  - active_loop: order_form
+  steps:
+    - intent: menu
+    - action: utter_menu
+    - action: order_form
+    - active_loop: order_form
+
+- rule: Interruption delivery in delivery form
+  condition:
+  - active_loop: delivery_form
+  steps:
+    - intent: list_delivery
+    - action: utter_list_delivery
+    - action: delivery_form
+    - active_loop: delivery_form
+
+- rule: Fallback interruption order form
+  condition:
+  - active_loop: order_form
+  steps:
+    - intent: nlu_fallback
+    - action: action_custom_fallback
+    - action: order_form
+    - active_loop: order_form
+
+- rule: Fallback interruption drinks form
+  condition:
+  - active_loop: drinks_form
+  steps:
+    - intent: nlu_fallback
+    - action: action_custom_fallback
+    - action: drinks_form
+    - active_loop: drinks_form
+
+- rule: Fallback interruption delivery form
+  condition:
+  - active_loop: delivery_form
+  steps:
+    - intent: nlu_fallback
+    - action: action_custom_fallback
+    - action: delivery_form
+    - active_loop: delivery_form
+
+- rule: Fallback interruption confirm order form
+  condition:
+  - active_loop: confirm_order_form
+  steps:
+    - intent: nlu_fallback
+    - action: action_custom_fallback
+    - action: confirm_order_form
+    - active_loop: confirm_order_form
+
+- rule: out-of-scope
+  steps:
+    - intent: out_of_scope
+    - action: utter_out_of_socpe
+
+- rule: response goodbye 
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_clear_order
+  
+
+# - rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+#   steps:
+#   - intent: nlu_fallback
+#   - action: action_custom_fallback
